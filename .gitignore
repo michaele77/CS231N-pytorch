@@ -1,4 +1,5 @@
 .DS_Store
+path/
 debug*
 datasets/
 checkpoints/
