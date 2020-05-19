@@ -24,6 +24,25 @@ from data import create_dataset
 from models import create_model
 from util.visualizer import Visualizer
 
+#Add in a loss list to keep track of it
+import os
+flag = True
+dirCounter = 0
+while flag:
+    try:
+        os.mkdir('ershov_lossFolder_' + str(dirCounter))
+        print('Created directory number ' + str(dirCounter))
+        ershDirectory = 'ershov_lossFolder_' + str(dirCounter)
+        flag = False
+    except:
+        print('Directory number ' + str(dirCounter) + ' is taken...')
+        dirCounter += 1
+        
+        
+ershov_lossList = []
+ershov_nameList = []
+ershov_epochList = []
+
 if __name__ == '__main__':
     opt = TrainOptions().parse()   # get training options
     dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
@@ -59,7 +78,11 @@ if __name__ == '__main__':
             if total_iters % opt.print_freq == 0:    # print training losses and save logging information to the disk
                 losses = model.get_current_losses()
                 t_comp = (time.time() - iter_start_time) / opt.batch_size
-                visualizer.print_current_losses(epoch, epoch_iter, losses, t_comp, t_data)
+                ershTemp1, ershTemp2 = visualizer.print_current_losses(epoch, epoch_iter, losses, t_comp, t_data)
+                ershov_lossList.append(ershTemp1)
+                ershov_nameList.append(ershTemp2)
+                ershov_epochList.append([epoch, epoch_iter])
+                
                 if opt.display_id > 0:
                     visualizer.plot_current_losses(epoch, float(epoch_iter) / dataset_size, losses)
 
@@ -76,3 +99,30 @@ if __name__ == '__main__':
 
         print('End of epoch %d / %d \t Time Taken: %d sec' % (epoch, opt.n_epochs + opt.n_epochs_decay, time.time() - epoch_start_time))
         model.update_learning_rate()                     # update learning rates at the end of every epoch.
+
+
+
+
+#Now save the lists into seperate files
+print('Saving files to ershov directory...')
+with open(ershDirectory + '/loss.txt', 'w') as filehandle:
+    #It's a list of lists of floats
+    for miniList in ershov_lossList:    
+        filehandle.writelines("%.3f\n" % subNum for subNum in miniList)
+        filehandle.writelines("-\n")
+    print('Saved loss')
+    
+with open(ershDirectory + '/names.txt', 'w') as filehandle:
+    #It's a list of lists of names
+    for miniList in ershov_nameList:    
+        filehandle.writelines("%s\n" % subStr for subStr in miniList)
+        filehandle.writelines("-\n")
+    print('Saved names')
+    
+with open(ershDirectory + '/epoch.txt', 'w') as filehandle:
+    #It's a list of 2 numbers for epoch
+    for miniList in ershov_epochList:    
+        filehandle.writelines("%.1f\n" % miniList[0])
+        filehandle.writelines("%.1f\n" % miniList[1])
+        filehandle.writelines("-\n")
+    print('Saved epoch')

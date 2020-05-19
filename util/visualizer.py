@@ -213,9 +213,16 @@ class Visualizer():
             t_data (float) -- data loading time per data point (normalized by batch_size)
         """
         message = '(epoch: %d, iters: %d, time: %.3f, data: %.3f) ' % (epoch, iters, t_comp, t_data)
+        ersh_miniLossList = []
+        ersh_miniNameList = []
         for k, v in losses.items():
             message += '%s: %.3f ' % (k, v)
+            ersh_miniLossList.append(v)
+            ersh_miniNameList.append(k)
+        
 
         print(message)  # print the message
         with open(self.log_name, "a") as log_file:
             log_file.write('%s\n' % message)  # save the message
+            
+        return ersh_miniLossList, ersh_miniNameList
