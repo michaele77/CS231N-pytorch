@@ -23,7 +23,7 @@ if not dirLen > 20:
     subprocess.run(command)
     
     # os.chdir('pytorch-CycleGAN-and-pix2pix/')
-#    os.chdir('CS231N-pytorch/')
+    os.chdir('CS231N-pytorch/')
     
     
     command = ['pip', 'install', '-r', 'requirements.txt']
