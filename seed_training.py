@@ -15,7 +15,9 @@ import subprocess
 
 ##INPUT HERE##
 #Need to determine which seed we want to run
-currNum = 1
+#currNum = 1
+txtIn = input('What seed number to train with? Please input: ')
+currNum = int(txtIn)
 
 autoPath = 'automated_tests/'
 seedFile = 'seed_' + str(currNum)
@@ -71,9 +73,11 @@ for i in range(numRuns):
 #   filehandle.writelines(temp)
   
   #Make sure the folds are combined
+print('combining datasets...')
 command = ['python', 'datasets/combine_A_and_B.py', '--fold_A path/to/data/A', \
            '--fold_B path/to/data/B', '--fold_AB path/to/data']
-subprocess.run(command)
+temp = subprocess.run(command)
+print('finished combining, output = ' + str(temp))
 #!python datasets/combine_A_and_B.py --fold_A path/to/data/A --fold_B path/to/data/B --fold_AB path/to/data
 
 
@@ -127,6 +131,8 @@ for i in range(firstRun,numRuns):
 #             '--beta1='+str(beta_list[i]), '--lr_policy='+str(policy_list[i]), '--gpu_ids', '-1']
 
    #To train on GPUs:
+#   python train.py --dataroot path/to/data --name run_test --model pix2pix --batch_size=8 --direction AtoB
+             
   command = ['python', 'train.py', '--dataroot', 'path/to/data/', '--name', runName, \
               '--model', 'pix2pix', '--batch_size=8', '--direction', 'AtoB', '--n_epochs='+str(epoch_list[i]), \
               '--n_epochs_decay='+str(epochDecay_list[i]), '--gan_mode='+str(gan_list[i]), '--lr='+str(lr_list[i]), \
@@ -137,6 +143,8 @@ for i in range(firstRun,numRuns):
 
   #Once done, copy over the checkpoints directory into my own checkpoints directory
   shutil.copytree('checkpoints/' + runName, runPath + '/checkpoints')
+  command = ['rm', '-r', 'checkpoints/' + runName]
+  subprocess.run(command)
 
   #Also copy over the loss file, remove the created loss folder bc of my dumb script originally
   shutil.copytree('ershov_lossFolder_0', runPath + '/loss')
