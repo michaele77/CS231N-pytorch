@@ -18,3 +18,28 @@ If you will change any of the actual .py files or training files:
 2) Add, commit, and push the code do your repo
 	-Need to do this before you run the pix2pix.ipynb since it clones your repo everytime
 	-Also need to do this if you change the training images
+
+
+
+
+FOR INTERFACING WITH GCLOUD
+
+-Assuming you are starting from an empty VM instance:
+
+1) Copy over the gitClone.py file using: -->
+gcloud compute scp gitClone.py cs231n-pytorch-project-vm:
+
+2) Now the file should be in youe VM, open a new terminal 
+
+3) To SSH into your VM, use: -->
+gcloud beta compute ssh --zone "us-west1-b" "cs231n-pytorch-project-vm" --project "cs231n-276805"
+
+4) Now you should see the gitClone.py file, run it with: -->
+python gitClone.py
+-This will clone the repo if you dont have it
+-Otherwise, it will pull the repo, run this command inside the CS231N folder thats created
+
+5) Now seed, train seed, and test all inside the repo
+
+6) To copy files back, use: -->
+gcloud compute scp --recurse cs231n-pytorch-project-vm:PATHTOCOPY PATHTOPASE
