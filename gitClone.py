@@ -16,14 +16,14 @@ import subprocess
 dirList = os.listdir()
 dirLen = len(dirList)
 print('Directory length is: ' + str(dirLen))
-if dirLen < 2:
+if not dirLen > 20:
     'Cloning repo...'
     #Do all of the required pix2pix stuff
     command = ['git', 'clone', 'https://github.com/michaele77/CS231N-pytorch']
     subprocess.run(command)
     
     # os.chdir('pytorch-CycleGAN-and-pix2pix/')
-    os.chdir('CS231N-pytorch/')
+#    os.chdir('CS231N-pytorch/')
     
     
     command = ['pip', 'install', '-r', 'requirements.txt']
