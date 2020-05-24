@@ -74,8 +74,8 @@ for i in range(numRuns):
   
   #Make sure the folds are combined
 print('combining datasets...')
-command = ['python', 'datasets/combine_A_and_B.py', '--fold_A path/to/data/A', \
-           '--fold_B path/to/data/B', '--fold_AB path/to/data']
+command = ['python', 'datasets/combine_A_and_B.py', '--fold_A', 'path/to/data/A', \
+           '--fold_B', 'path/to/data/B', '--fold_AB', 'path/to/data']
 temp = subprocess.run(command)
 print('finished combining, output = ' + str(temp))
 #!python datasets/combine_A_and_B.py --fold_A path/to/data/A --fold_B path/to/data/B --fold_AB path/to/data
