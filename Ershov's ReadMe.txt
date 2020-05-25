@@ -41,5 +41,6 @@ python gitClone.py
 
 5) Now seed, train seed, and test all inside the repo
 
-6) To copy files back, use: -->
+6) To copy files back, MAKE SURE YOU ARE IN THE LOCAL DIRECTORY,use: -->
 gcloud compute scp --recurse cs231n-pytorch-project-vm:PATHTOCOPY PATHTOPASE
+

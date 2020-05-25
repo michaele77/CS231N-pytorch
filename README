@@ -1,0 +1,9 @@
+README
+
+
+This folder contains all of the big tests/sims I ran on both drive using colab and GCP
+
+In general, everything inside each seed will follow the previous data structuring format. The only difference is that seeds might have a different suffix if taken from drive.
+
+I will add a testing folder within each seed (if not created already) that will have loss plots, comparison pictures, and inception score plots for different runs and different trainings.
+
