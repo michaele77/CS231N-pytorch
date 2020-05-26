@@ -32,7 +32,8 @@ gan_list = []
 #gan_ref = ['vanilla', 'lsgan', 'wgangp']
 gan_ref = ['wgangp']
 for x in range(numRuns):
-  gan_list.append(gan_ref[random.randint(0,2)])
+#  gan_list.append(gan_ref[random.randint(0,2)])
+  gan_list.append(gan_ref[0])
 print(gan_list)
 
 #number of epochs

@@ -19,6 +19,9 @@ import subprocess
 txtIn = input('What seed number to train with? Please input: ')
 currNum = int(txtIn)
 
+txtIn = input('New Data? Need to join directories [1 for yes]? Please input: ')
+willJoin = int(txtIn)
+
 autoPath = 'automated_tests/'
 seedFile = 'seed_' + str(currNum)
 seedPath = autoPath + seedFile + '/'
@@ -73,11 +76,15 @@ for i in range(numRuns):
 #   filehandle.writelines(temp)
   
   #Make sure the folds are combined
-print('combining datasets...')
-command = ['python', 'datasets/combine_A_and_B.py', '--fold_A', 'path/to/data/A', \
-           '--fold_B', 'path/to/data/B', '--fold_AB', 'path/to/data']
-temp = subprocess.run(command)
-print('finished combining, output = ' + str(temp))
+  if willJoin == 1:
+    print('combining datasets...')
+    command = ['python', 'datasets/combine_A_and_B.py', '--fold_A', 'path/to/data/A', \
+               '--fold_B', 'path/to/data/B', '--fold_AB', 'path/to/data']
+    temp = subprocess.run(command)
+    print('finished combining, output = ' + str(temp))
+  else:
+    print('datasets already combined...')
+
 #!python datasets/combine_A_and_B.py --fold_A path/to/data/A --fold_B path/to/data/B --fold_AB path/to/data
 
 
@@ -136,7 +143,8 @@ for i in range(firstRun,numRuns):
   command = ['python', 'train.py', '--dataroot', 'path/to/data/', '--name', runName, \
               '--model', 'pix2pix', '--batch_size=8', '--direction', 'AtoB', '--n_epochs='+str(epoch_list[i]), \
               '--n_epochs_decay='+str(epochDecay_list[i]), '--gan_mode='+str(gan_list[i]), '--lr='+str(lr_list[i]), \
-              '--beta1='+str(beta_list[i]), '--lr_policy='+str(policy_list[i]),'--save_epoch_freq=10']
+              '--beta1='+str(beta_list[i]), '--lr_policy='+str(policy_list[i]),\
+              '--save_epoch_freq=10', '--display_id', '0']
 
   subprocess.run(command)
 
