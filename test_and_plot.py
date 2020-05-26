@@ -182,11 +182,13 @@ def calcHeuristic(inDict, runID, imgNum, subpath, preStr='val'):
     genPath = imPath + inDict[runID][2][imgNum]
     
     
-    skData = cv2.imread(skPath, 0)
-    bwData = cv2.imread(bwPath, 0)
-    genData = cv2.imread(genPath, 0)
+    skData = np.float32(cv2.imread(skPath, 0))
+    bwData = np.float32(cv2.imread(bwPath, 0))
+    genData = np.float32(cv2.imread(genPath, 0))
     
-    heurVal = 1 - np.sum(skData - genData) / np.sum(skData - bwData)
+    
+    
+    heurVal = 1 - np.sum(np.abs(bwData - genData)) / np.sum(np.abs(bwData - skData))
     return heurVal
     
       
@@ -446,17 +448,20 @@ for runPathIter in runDirList:
 #Make sure to replace BOTH preStr variables and the imgDict for the tiling function!
 dispImList = [7,69,100,138,77,1,89,193]
 
-ifSave = input('Do you want to save the tile images? [1 for yes]: ')
-saveIn = False
-if ifSave:
-    saveIn = True
+ifRun = input('Do you want to run tile images? [1 for yes]: ')
 
-for dispIm in dispImList:
-    tileCompFunc(imgDictVal, runDirList, dispIm, subSeedPath, preStr='val', save=saveIn)
-
-for dispIm in dispImList:
-    tileCompFunc(imgDictTest, runDirList, dispIm, subSeedPath, preStr='test', save=saveIn)
+if int(ifRun) == 1:
+    ifSave = input('Do you want to save the tile images? [1 for yes]: ')
+    saveIn = False
+    if int(ifSave) == 1:
+        saveIn = True
     
+    for dispIm in dispImList:
+        tileCompFunc(imgDictVal, runDirList, dispIm, subSeedPath, preStr='val', save=saveIn)
+    
+    for dispIm in dispImList:
+        tileCompFunc(imgDictTest, runDirList, dispIm, subSeedPath, preStr='test', save=saveIn)
+        
 
 ##IMPLEMENT CUSTOM HEURISTIC FUNCTION BELOW##
 #Test on run0
@@ -464,11 +469,13 @@ print('Calculating heuristic index...')
 
 
 
-
+plt.figure(0)
 for runID in runDirList:
     heurArr = []
+    
     for i in range(len(imgDictVal[runID][0])):
         heurArr.append(calcHeuristic(imgDictVal, runID, i, subSeedPath, preStr='val'))
+    plt.plot(heurArr)
     print('Mean for ' + runID + ' = ' + str(mean(heurArr)))
 
 

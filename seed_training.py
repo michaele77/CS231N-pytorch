@@ -136,7 +136,7 @@ for i in range(firstRun,numRuns):
   command = ['python', 'train.py', '--dataroot', 'path/to/data/', '--name', runName, \
               '--model', 'pix2pix', '--batch_size=8', '--direction', 'AtoB', '--n_epochs='+str(epoch_list[i]), \
               '--n_epochs_decay='+str(epochDecay_list[i]), '--gan_mode='+str(gan_list[i]), '--lr='+str(lr_list[i]), \
-              '--beta1='+str(beta_list[i]), '--lr_policy='+str(policy_list[i])]
+              '--beta1='+str(beta_list[i]), '--lr_policy='+str(policy_list[i]),'--save_epoch_freq=10']
 
   subprocess.run(command)
 

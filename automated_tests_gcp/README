@@ -20,3 +20,12 @@ seed_0
 -16 epochs, half and half decay
 -Will use as a backup in case the seed_1 doesnt give enough conclusive results
 
+seed_2
+-5/25, initiated with learnings from seed_1
+-Increased to 100 epochs, half and half decay
+-Narrowed to only using wgang loss
+-increased LR spread to 1.5-4e-4 (up from 1-3e-3)
+-Increased beta spread to 0.2 to 0.8 (up from 0.3 to 0.7, didnt get great data capture before)
+-Increase save_epoch freq to every 10
+-After this, will try to narrow down, might spread to pool parameter, might lengthen epoch (ie 300 or 400)
+
