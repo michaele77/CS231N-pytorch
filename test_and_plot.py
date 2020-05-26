@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import subprocess
 from distutils.dir_util import copy_tree
 import cv2
+import numpy as np
 
 
 #command = ['python', 'datasets/combine_A_and_B.py', '--fold_A', 'path/to/data/A', \
@@ -172,6 +173,22 @@ def tileCompFunc(inDict, runNameList, imgNum, subpath, preStr='val', save=False)
   if save:
       plt.savefig(resultPath + '/M' + str(chosenModel) + '_' + \
                   preStr + '_' + str(imgNum) + '.png')
+      
+      
+def calcHeuristic(inDict, runID, imgNum, subpath, preStr='val'):
+    imPath = subpath + '/' + runID + '/saved_results/model_' + str(chosenModel) + '/' + preStr + '/'
+    skPath = imPath + inDict[runID][0][imgNum]
+    bwPath = imPath+ inDict[runID][1][imgNum]
+    genPath = imPath + inDict[runID][2][imgNum]
+    
+    
+    skData = cv2.imread(skPath, 0)
+    bwData = cv2.imread(bwPath, 0)
+    genData = cv2.imread(genPath, 0)
+    
+    heurVal = 1 - np.sum(skData - genData) / np.sum(skData - bwData)
+    return heurVal
+    
       
   
           
@@ -429,11 +446,31 @@ for runPathIter in runDirList:
 #Make sure to replace BOTH preStr variables and the imgDict for the tiling function!
 dispImList = [7,69,100,138,77,1,89,193]
 
-for dispIm in dispImList:
-    tileCompFunc(imgDictVal, runDirList, dispIm, subSeedPath, preStr='val', save=True)
+ifSave = input('Do you want to save the tile images? [1 for yes]: ')
+saveIn = False
+if ifSave:
+    saveIn = True
 
 for dispIm in dispImList:
-    tileCompFunc(imgDictTest, runDirList, dispIm, subSeedPath, preStr='test', save=True)
+    tileCompFunc(imgDictVal, runDirList, dispIm, subSeedPath, preStr='val', save=saveIn)
+
+for dispIm in dispImList:
+    tileCompFunc(imgDictTest, runDirList, dispIm, subSeedPath, preStr='test', save=saveIn)
+    
+
+##IMPLEMENT CUSTOM HEURISTIC FUNCTION BELOW##
+#Test on run0
+print('Calculating heuristic index...')
+
+
+
+
+for runID in runDirList:
+    heurArr = []
+    for i in range(len(imgDictVal[runID][0])):
+        heurArr.append(calcHeuristic(imgDictVal, runID, i, subSeedPath, preStr='val'))
+    print('Mean for ' + runID + ' = ' + str(mean(heurArr)))
+
 
         
     
