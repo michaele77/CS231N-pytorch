@@ -16,7 +16,7 @@ import subprocess
 dirList = os.listdir()
 dirLen = len(dirList)
 print('Directory length is: ' + str(dirLen))
-if not dirLen > 20:
+if not dirLen > 5:
     'Cloning repo...'
     #Do all of the required pix2pix stuff
     command = ['git', 'clone', 'https://github.com/michaele77/CS231N-pytorch']
