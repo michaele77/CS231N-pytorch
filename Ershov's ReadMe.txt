@@ -44,3 +44,6 @@ python gitClone.py
 6) To copy files back, MAKE SURE YOU ARE IN THE LOCAL DIRECTORY,use: -->
 gcloud compute scp --recurse cs231n-pytorch-project-vm:PATHTOCOPY PATHTOPASE
 
+7) If running into an issue with DS_STORE files (ie merging photos), run: (will delete DS_Store files in all sub directories from current directory) -->
+find . -name ".DS_Store" -delete
+
