@@ -200,7 +200,8 @@ def calcHeuristic(inDict, runID, imgNum, subpath, preStr='val'):
 #First, set the seed directory and make directories if they dont exist
 #subproc will return 0 is successful, 1 if exists
 ####INPUT HERE####
-seedNum = 1
+txtIn = input('What seed do you want to test from? ')
+seedNum = int(txtIn)
 ####INPUT HERE####
 subSeedPath = 'automated_tests_gcp/seed_' + str(seedNum)
 seedPath = 'automated_tests_gcp/seed_' + str(seedNum) + '/test_result'
